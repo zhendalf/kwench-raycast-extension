@@ -1,0 +1,91 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "kwench",
+  "title": "Kwench",
+  "description": "Chat with KWENCH bot to book meeting rooms and manage workspace resources",
+  "icon": "extension-icon.png",
+  "author": "ebeloded",
+  "platforms": [
+    "macOS",
+    "Windows"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "ask",
+      "title": "Ask KWENCH",
+      "description": "Chat with KWENCH bot to manage workspace bookings",
+      "mode": "view"
+    }
+  ],
+  "tools": [
+    {
+      "name": "chat",
+      "title": "Chat with KWENCH",
+      "description": "Send a message to the KWENCH bot to book meeting rooms, check availability, list bookings, or cancel reservations"
+    }
+  ],
+  "ai": {
+    "instructions": "You are helping users interact with the KWENCH workspace booking system. Use the chat tool to send messages to KWENCH for: booking meeting rooms, phone booths, or resident booths; checking availability of spaces; listing existing bookings; canceling reservations. Always use natural language when talking to KWENCH - it understands requests like 'book a meeting room tomorrow at 2pm' or 'what rooms are available this afternoon'.",
+    "evals": [
+      {
+        "input": "@kwench book a meeting room tomorrow at 2pm",
+        "mocks": {
+          "chat": "I've booked Meeting Room A for you tomorrow from 2:00 PM to 3:00 PM."
+        },
+        "expected": [{ "callsTool": "chat" }]
+      },
+      {
+        "input": "@kwench what rooms are available this afternoon?",
+        "mocks": {
+          "chat": "Here are the available meeting rooms for this afternoon:\n- Meeting Room A: 1:00 PM - 5:00 PM\n- Meeting Room B: 2:00 PM - 4:00 PM"
+        },
+        "expected": [{ "callsTool": "chat" }]
+      },
+      {
+        "input": "@kwench show my bookings",
+        "mocks": {
+          "chat": "You have the following upcoming bookings:\n1. Meeting Room A - Tomorrow 2:00 PM - 3:00 PM"
+        },
+        "expected": [{ "callsTool": "chat" }]
+      },
+      {
+        "input": "@kwench cancel my booking tomorrow",
+        "mocks": {
+          "chat": "I've cancelled your booking for Meeting Room A tomorrow at 2:00 PM."
+        },
+        "expected": [{ "callsTool": "chat" }]
+      }
+    ]
+  },
+  "preferences": [
+    {
+      "name": "apiKey",
+      "title": "API Key",
+      "description": "Your KWENCH API key (get it via /apikey command in Slack)",
+      "type": "password",
+      "required": true,
+      "placeholder": "kwench_..."
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.103.10",
+    "@raycast/utils": "^1.17.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.10",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
