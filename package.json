@@ -23,7 +23,7 @@
       "subtitle": "KWENCH",
       "description": "View your KWENCH bookings in the menu bar",
       "mode": "menu-bar",
-      "interval": "15m"
+      "interval": "1m"
     }
   ],
   "tools": [

@@ -23,6 +23,62 @@ function getStatusIcon(status: Booking["status"]): Icon {
   }
 }
 
+/**
+ * Parse a time string like "2:00 PM" into a Date object for today
+ */
+function parseTimeToday(timeStr: string): Date {
+  const now = new Date();
+  const match = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return now;
+
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const isPM = match[3].toUpperCase() === "PM";
+
+  if (isPM && hours !== 12) hours += 12;
+  if (!isPM && hours === 12) hours = 0;
+
+  const date = new Date(now);
+  date.setHours(hours, minutes, 0, 0);
+  return date;
+}
+
+/**
+ * Get menu bar title showing time until next booking or time remaining
+ */
+function getMenuBarTitle(bookings: Booking[]): string | undefined {
+  const now = new Date();
+  const todayBookings = bookings.filter((b) => b.date === "Today");
+
+  for (const booking of todayBookings) {
+    const [startStr, endStr] = booking.timeRange.split(" - ");
+    const startTime = parseTimeToday(startStr);
+    const endTime = parseTimeToday(endStr);
+
+    const msUntilStart = startTime.getTime() - now.getTime();
+    const msUntilEnd = endTime.getTime() - now.getTime();
+
+    // Currently running: show time left
+    if (msUntilStart <= 0 && msUntilEnd > 0) {
+      const minutesLeft = Math.ceil(msUntilEnd / 60000);
+      if (minutesLeft >= 60) {
+        const hours = Math.floor(minutesLeft / 60);
+        const mins = minutesLeft % 60;
+        return mins > 0 ? `${hours}h ${mins}m left` : `${hours}h left`;
+      }
+      return `${minutesLeft}m left`;
+    }
+
+    // Starting within an hour: show time until start
+    if (msUntilStart > 0 && msUntilStart <= 60 * 60 * 1000) {
+      const minutesUntil = Math.ceil(msUntilStart / 60000);
+      return `in ${minutesUntil}m`;
+    }
+  }
+
+  return undefined;
+}
+
 function groupBookingsByDate(bookings: Booking[]): Map<string, Booking[]> {
   const grouped = new Map<string, Booking[]>();
 
@@ -82,8 +138,8 @@ export default function MenuBarBookings() {
   const bookings = data || [];
   const bookingCount = bookings.length;
 
-  // Show count in menu bar if there are bookings
-  const title = bookingCount > 0 ? `${bookingCount}` : undefined;
+  // Show time until next booking or time remaining for current booking
+  const title = getMenuBarTitle(bookings);
 
   // No bookings
   if (bookings.length === 0) {

@@ -163,11 +163,7 @@ export default function AskKwench() {
           actions={
             <ActionPanel>
               <Action title="Send Message" icon={Icon.Message} onAction={handleSubmit} />
-              <Action
-                title="Open Extension Preferences"
-                icon={Icon.Gear}
-                onAction={openExtensionPreferences}
-              />
+              <Action title="Open Extension Preferences" icon={Icon.Gear} onAction={openExtensionPreferences} />
             </ActionPanel>
           }
         />
@@ -224,11 +220,7 @@ export default function AskKwench() {
                 shortcut={{ modifiers: ["cmd", "shift"], key: "backspace" }}
                 onAction={handleClearHistory}
               />
-              <Action
-                title="Open Extension Preferences"
-                icon={Icon.Gear}
-                onAction={openExtensionPreferences}
-              />
+              <Action title="Open Extension Preferences" icon={Icon.Gear} onAction={openExtensionPreferences} />
             </ActionPanel>
           }
         />
