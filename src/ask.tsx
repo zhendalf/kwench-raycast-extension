@@ -166,7 +166,6 @@ export default function AskKwench() {
               <Action
                 title="Open Extension Preferences"
                 icon={Icon.Gear}
-                shortcut={{ modifiers: ["cmd"], key: "," }}
                 onAction={openExtensionPreferences}
               />
             </ActionPanel>
@@ -228,7 +227,6 @@ export default function AskKwench() {
               <Action
                 title="Open Extension Preferences"
                 icon={Icon.Gear}
-                shortcut={{ modifiers: ["cmd"], key: "," }}
                 onAction={openExtensionPreferences}
               />
             </ActionPanel>
