@@ -16,6 +16,14 @@
       "title": "Ask KWENCH",
       "description": "Chat with KWENCH bot to manage workspace bookings",
       "mode": "view"
+    },
+    {
+      "name": "menubar-bookings",
+      "title": "My Bookings",
+      "subtitle": "KWENCH",
+      "description": "View your KWENCH bookings in the menu bar",
+      "mode": "menu-bar",
+      "interval": "15m"
     }
   ],
   "tools": [

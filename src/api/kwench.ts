@@ -1,4 +1,11 @@
-import { ChatRequest, ChatResponse, ChatErrorResponse, ValidateResponse, ValidateSuccessResponse } from "../types";
+import {
+  ChatRequest,
+  ChatResponse,
+  ChatErrorResponse,
+  ValidateResponse,
+  ValidateSuccessResponse,
+  BookingsResponse,
+} from "../types";
 
 const BASE_URL = "https://kwench-bot.ebeloded.workers.dev/api";
 
@@ -64,6 +71,29 @@ export async function sendMessage(message: string, apiKey: string): Promise<Chat
   }
 
   return response.json() as Promise<ChatResponse>;
+}
+
+/**
+ * Get user's upcoming bookings
+ *
+ * @param apiKey - The KWENCH API key
+ * @returns List of upcoming bookings
+ * @throws KwenchApiError if the request fails
+ */
+export async function getBookings(apiKey: string): Promise<BookingsResponse> {
+  const response = await fetch(`${BASE_URL}/bookings`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = (await response.json()) as ChatErrorResponse;
+    throw new KwenchApiError(errorData.error || `Request failed with status ${response.status}`, response.status);
+  }
+
+  return response.json() as Promise<BookingsResponse>;
 }
 
 /**

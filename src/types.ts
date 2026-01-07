@@ -62,3 +62,30 @@ export interface ChatErrorResponse {
 export interface ChatFormValues {
   message: string;
 }
+
+/**
+ * A booking from the KWENCH system
+ */
+export interface Booking {
+  /** Unique booking ID */
+  booking_id: string;
+  /** Booking title */
+  title: string;
+  /** Resource name (e.g., "Meeting Room A") */
+  resource: string;
+  /** Formatted date (e.g., "Today", "Tomorrow", "Tue, Jan 15") */
+  date: string;
+  /** Formatted time range (e.g., "2:00 PM - 3:00 PM") */
+  timeRange: string;
+  /** Booking status */
+  status: "Approved" | "Pending" | "Rejected";
+}
+
+/**
+ * Response from bookings API
+ */
+export interface BookingsResponse {
+  bookings: Booking[];
+  count: number;
+  message?: string;
+}
